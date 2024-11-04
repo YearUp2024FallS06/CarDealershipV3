@@ -2,13 +2,19 @@ package com.pluralsight;
 
 import com.pluralsight.contracts.*;
 
+import java.util.ArrayList;
+
 public class UserInterface {
 
-    public static String filename = "inventory.csv";
+    public static String filename_dealership = "inventory.csv";
+    public static String filename_contracts = "contracts.csv";
     public Dealership currentDealership;
+    public ArrayList<Contract> contracts;
 
     public UserInterface(){
-        currentDealership = DealershipFileManager.getFromCSV(filename);
+        currentDealership = DealershipFileManager.getFromCSV(filename_dealership);
+        contracts = ContractFileManager.getFromCSV(filename_contracts);
+        displayContracts(contracts);
     }
 
 
@@ -73,7 +79,7 @@ public class UserInterface {
         Vehicle v = new Vehicle(vin,year, make, model, vehicleType, color, odometer, price);
 
         currentDealership.addVehicleToInventory(v);
-        DealershipFileManager.saveToCSV(currentDealership, filename);
+        DealershipFileManager.saveToCSV(currentDealership, filename_dealership);
 
     }
 
@@ -220,6 +226,12 @@ public class UserInterface {
 
     public void displayVehicle(Vehicle v){
         System.out.println(v);
+    }
+
+    public void displayContracts(ArrayList<Contract> contracts){
+        for(Contract c : contracts){
+            System.out.println(c);
+        }
     }
 
 

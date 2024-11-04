@@ -19,6 +19,14 @@ public class SalesContract extends Contract {
         this.wantsToFinance = wantsToFinance;
     }
 
+    public SalesContract(String date, String customerName, String customerEmail, Vehicle vehicleSold, double salesTaxAmount,double recordingFee, double processingFee, boolean wantsToFinance) {
+        super(date, customerName, customerEmail, vehicleSold);
+        this.recordingFee = recordingFee;
+        this.salesTaxAmount = salesTaxAmount;
+        this.processingFee = processingFee;
+        this.wantsToFinance = wantsToFinance;
+    }
+
     public double getRecordingFee() {
         return recordingFee;
     }
@@ -73,6 +81,9 @@ public class SalesContract extends Contract {
 
     }
 
-
+    @Override
+    public String toString(){
+        return "Contract for " + super.getCustomerName() + " to PURCHASE " + super.getVehicleSold();
+    }
 
 }
