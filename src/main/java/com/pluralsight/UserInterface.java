@@ -1,5 +1,7 @@
 package com.pluralsight;
 
+import com.pluralsight.contracts.*;
+
 public class UserInterface {
 
     public static String filename = "inventory.csv";
@@ -23,6 +25,7 @@ public class UserInterface {
                 7 - List ALL vehicles
                 8 - Add a vehicle
                 9 - Remove a vehicle
+                10 - Sell or Lease vehicle
                 99 - Quit
 
                 >>>\s""";
@@ -43,6 +46,7 @@ public class UserInterface {
                 case 7 -> processGetAllVehiclesRequest();
                 case 8 -> processAddVehicleRequest();
                 case 9 -> processRemoveVehicleRequest();
+                case 10 -> processSellOrLeaseRequest();
                 case 99 -> System.exit(0);
                 default -> System.out.println("Invalid selection. Please try again.");
             }
@@ -102,6 +106,117 @@ public class UserInterface {
             displayVehicle(v);
         }
     }
+
+    public void processSellOrLeaseRequest(){
+        int vin = 0;
+        String input;
+        // Get all the info we need from the user
+        // Get VIN
+        do {
+            input = Console.PromptForString("Enter VIN of the vehicle to sell/lease (or 'v' to view all vehicles or 'q' to cancel): ");
+            if (input.equalsIgnoreCase("q")) return;
+            if (input.equalsIgnoreCase("v")) {
+                processGetAllVehiclesRequest();
+                input = "";
+                continue;
+            }
+
+            try {
+                vin = Integer.parseInt(input);
+
+                Vehicle vehicleToSell = currentDealership.getVehicleByVIN(vin);
+                if (vehicleToSell == null) {
+                    System.out.println("Vehicle not found. Please try again.");
+                    input = ""; // Reset input
+                    continue;
+                }
+                break;
+            } catch (NumberFormatException e) {
+                System.out.println("Invalid input. Please enter a valid number. or v to list vehicles, or q to return to main menu.");
+                input = ""; // Reset input
+            }
+        } while (input.isEmpty());
+
+        System.out.println(vin);
+        System.out.println(currentDealership.getVehicleByVIN(vin));
+        //at this point we should have a vin...
+
+
+        // Get contract type
+        String contractType;
+        do {
+            contractType = Console.PromptForString("Enter contract type (sale/lease) (or 'q' to cancel): ");
+            if (contractType.equalsIgnoreCase("q")) return;
+            if (!contractType.equalsIgnoreCase("sale") && !contractType.equalsIgnoreCase("lease")) {
+                System.out.println("Invalid contract type. Please enter 'sale' or 'lease'.");
+                contractType = ""; // Reset input
+            }
+        } while (contractType.isEmpty());
+
+
+
+        // Get customer name
+        String customerName;
+        do {
+            customerName = Console.PromptForString("Enter customer name (or 'q' to cancel): ");
+            if (customerName.equalsIgnoreCase("q")) return;
+        } while (customerName.isEmpty());
+
+        // Get customer email
+        String customerEmail;
+        do {
+            customerEmail = Console.PromptForString("Enter customer email (or 'q' to cancel): ");
+            if (customerEmail.equalsIgnoreCase("q")) return;
+        } while (customerEmail.isEmpty());
+
+        // Get date
+        String date;
+        do {
+            date = Console.PromptForString("Enter date (YYYYMMDD) (or 'q' to cancel): ");
+            if (date.equalsIgnoreCase("q")) return;
+
+            // Validate date format
+            if (date.length() != 8 || !date.matches("\\d{8}")) {
+                System.out.println("Invalid date format. Please use YYYYMMDD (e.g., 20210928)");
+                date = ""; // Reset input
+                continue;
+            }
+        } while (date.isEmpty());
+
+        Vehicle vehicle = currentDealership.getVehicleByVIN(vin);
+
+        Contract contract = null;
+
+        // Create appropriate contract type
+        if (contractType.equalsIgnoreCase("sale")) {
+            String financeInput;
+            boolean isFinanced;
+            do {
+                financeInput = Console.PromptForString("Will this be financed? (yes/no) (or 'q' to cancel): ");
+                if (financeInput.equalsIgnoreCase("q")) return;
+                if (financeInput.equalsIgnoreCase("yes")) {
+                    isFinanced = true;
+                    break;
+                } else if (financeInput.equalsIgnoreCase("no")) {
+                    isFinanced = false;
+                    break;
+                }
+                System.out.println("Please enter 'yes' or 'no'.");
+            } while (true);
+
+            contract = new SalesContract(date, customerName, customerEmail, vehicle, isFinanced);
+        } else {
+         // do later.
+        }
+
+        System.out.println(contract);
+        System.out.println(contract.getTotalPrice());
+        System.out.println(contract.getMonthlyPayment());
+
+    }
+
+
+
 
     public void displayVehicle(Vehicle v){
         System.out.println(v);

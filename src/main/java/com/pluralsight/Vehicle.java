@@ -70,7 +70,7 @@ public class Vehicle {
         else{
             colorString = color;
         }
-        return (this.getYear() + " " + this.getMake() + " " + this.getModel() + " [" + colorString + "]");
+        return (this.getYear() + " " + this.getMake() + " " + this.getModel() + " [" + colorString + "]" + "VIN: " + this.getVin());
     }
 
 }
