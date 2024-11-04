@@ -206,7 +206,7 @@ public class UserInterface {
 
             contract = new SalesContract(date, customerName, customerEmail, vehicle, isFinanced);
         } else {
-         // do later.
+            contract = new LeaseContract(date, customerName, customerEmail, vehicle);
         }
 
         System.out.println(contract);

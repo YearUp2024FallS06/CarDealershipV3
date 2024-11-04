@@ -1,5 +1,6 @@
 package com.pluralsight.contracts;
 
+import com.pluralsight.BankingCalculations;
 import com.pluralsight.Vehicle;
 
 public class SalesContract extends Contract {
@@ -60,7 +61,7 @@ public class SalesContract extends Contract {
         if(this.wantsToFinance){
             double financeRate = (super.getVehicleSold().getPrice() < 10000) ? 0.0525 : 0.0425;
             double financeTerm = (super.getVehicleSold().getPrice() < 10000) ? 24 : 48;
-            return calculateLoanPayment(this.getTotalPrice(), financeRate, financeTerm);
+            return BankingCalculations.calculateLoanPayment(this.getTotalPrice(), financeRate, financeTerm);
         }
         else{
             return 0; //no financing, no monthly payment.
@@ -72,8 +73,6 @@ public class SalesContract extends Contract {
 
     }
 
-    private double calculateLoanPayment(double borrowedAmount, double loanRate, double months){
-        return borrowedAmount * (loanRate/12 * Math.pow(1 + loanRate/12, months)) / (Math.pow(1 + loanRate/12, months) - 1);
-    }
+
 
 }
