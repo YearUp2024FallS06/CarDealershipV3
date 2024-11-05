@@ -84,6 +84,18 @@ public class ContractFileManager {
     }
 
 
+    public static void appendToCSV(Contract contracts, String filename){
 
+    }
+
+    public void appendToContractsFile(String record, String filename) throws IOException {
+
+        FileWriter writer;
+
+        writer = new FileWriter(filename, true);
+        writer.write(record + "\n"); // Write the record followed by a new line
+        writer.close();
+
+    }
 
 }

@@ -3,7 +3,7 @@ package com.pluralsight.contracts;
 import com.pluralsight.BankingCalculations;
 import com.pluralsight.Vehicle;
 
-public class SalesContract extends Contract {
+public class SalesContract extends Contract{
     private double recordingFee;
     private double salesTaxAmount;
     private final double salesTaxPercentage =  0.05;
@@ -86,4 +86,19 @@ public class SalesContract extends Contract {
         return "Contract for " + super.getCustomerName() + " to PURCHASE " + super.getVehicleSold();
     }
 
+    @Override
+    public String encode() {
+        return "SALE|" +
+                this.getDate() + "|" +
+                this.getCustomerName() + "|" +
+                this.getCustomerEmail() + "|" +
+                this.getVehicleSold().encode() + "|" +
+                this.getSalesTaxAmount() + "|" +
+                this.getRecordingFee() + "|" +
+                this.getProcessingFee() + "|" +
+                this.getTotalPrice() + "|" +
+                (this.isWantsToFinance() ? "YES" : "NO") + "|" +
+                this.getMonthlyPayment();
+
+    }
 }

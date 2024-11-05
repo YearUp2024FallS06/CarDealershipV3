@@ -2,7 +2,7 @@ package com.pluralsight;
 
 import java.util.ArrayList;
 
-public class Dealership {
+public class Dealership implements ITextEncodable {
 
     private String name;
     private String address;
@@ -76,5 +76,21 @@ public class Dealership {
 
     public ArrayList<Vehicle> getAllVehicles() {
         return this.inventory;
+    }
+
+    @Override
+    public String encode() {
+        StringBuilder sb = new StringBuilder();
+
+        sb.append(this.getName()).append("|")
+                .append(this.getAddress()).append("|")
+                .append(this.getPhone()).append("\n");
+
+        for(Vehicle v : this.inventory){
+            sb.append(v.encode()).append("\n");
+        }
+
+        return sb.toString();
+
     }
 }

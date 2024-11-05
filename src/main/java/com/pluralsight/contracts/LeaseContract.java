@@ -54,4 +54,17 @@ public class LeaseContract extends Contract {
     public String toString(){
         return "Contract for " + super.getCustomerName() + " to LEASE " + super.getVehicleSold();
     }
+
+    @Override
+    public String encode() {
+        return "LEASE|" +
+                this.getDate() + "|" +
+                this.getCustomerName() + "|" +
+                this.getCustomerEmail() + "|" +
+                this.getVehicleSold().encode() + "|" +
+                this.getExpectedEndingValue() + "|" +
+                this.getLeaseFee() + "|" +
+                this.getTotalPrice() + "|" +
+                this.getMonthlyPayment();
+    }
 }

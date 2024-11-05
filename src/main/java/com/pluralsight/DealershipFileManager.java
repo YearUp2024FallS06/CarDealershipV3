@@ -49,34 +49,13 @@ public class DealershipFileManager {
             FileWriter fw = new FileWriter(filename);
             BufferedWriter bw = new BufferedWriter(fw);
 
-            bw.write(getEncodedDealershipHeader(dealership));
+            bw.write(dealership.encode());
 
-            // Loop through transactions and write each one to the file
-            for (Vehicle vehicle : dealership.getAllVehicles()) {
-                bw.write(getEncodedVehicle(vehicle));
-            }
             bw.close(); // Close the BufferedWriter
 
         } catch (IOException e){
             System.out.println("Error while saving Transactions: " + e.getMessage());
         }
     }
-
-    private static String getEncodedDealershipHeader(Dealership dealership){
-       return dealership.getName() + "|" + dealership.getAddress() + "|" + dealership.getPhone() + "\n";
-    }
-
-    private static String getEncodedVehicle(Vehicle vehicle){
-        return new StringBuilder()
-                .append(vehicle.getVin()).append("|")
-                .append(vehicle.getYear()).append("|")
-                .append(vehicle.getMake()).append("|")
-                .append(vehicle.getModel()).append("|")
-                .append(vehicle.getVehicleType()).append("|")
-                .append(vehicle.getColor()).append("|")
-                .append(vehicle.getOdometer()).append("|")
-                .append(vehicle.getPrice()).append("\n").toString();
-    }
-
-
+    
 }
