@@ -1,5 +1,7 @@
 package com.pluralsight;
 
+import java.util.regex.Pattern;
+
 public class Vehicle implements ITextEncodable {
     private int vin;
     private int year;
@@ -21,6 +23,25 @@ public class Vehicle implements ITextEncodable {
         this.price = price;
     }
 
+    public Vehicle(String encodedData){
+        String[] data = encodedData.split(Pattern.quote("|"));
+        int vin = Integer.parseInt(data[0]);
+        int year = Integer.parseInt(data[1]);
+        String make = data[2];
+        String model = data[3];
+        String vehicleType = data[4];
+        String color = data[5];
+        int odometer = Integer.parseInt(data[6]);
+        double price = Double.parseDouble(data[7]);
+        this.vin = vin;
+        this.year = year;
+        this.make = make;
+        this.model = model;
+        this.vehicleType = vehicleType;
+        this.color = color;
+        this.odometer = odometer;
+        this.price = price;
+    }
     // Getters for all fields
     public int getVin() {
         return vin;

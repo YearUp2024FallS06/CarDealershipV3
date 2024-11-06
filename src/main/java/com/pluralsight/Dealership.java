@@ -1,6 +1,8 @@
 package com.pluralsight;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.regex.Pattern;
 
 public class Dealership implements ITextEncodable {
 
@@ -17,6 +19,25 @@ public class Dealership implements ITextEncodable {
         this.address = address;
         this.phone = phone;
         this.inventory = new ArrayList<Vehicle>();
+    }
+
+    public Dealership(String encodedData){
+        this.inventory = new ArrayList<Vehicle>();
+
+        String[] lines = encodedData.split(Pattern.quote("\n"));
+        for(String line : lines){
+            String[] col = line.split(Pattern.quote("|"));
+            if(col.length == 3){ //this must be the first line...
+               this.name = col[0];
+               this.address= col[1];
+               this.phone = col[2];
+            }
+            else{ //this must be a vehicle
+                Vehicle v = new Vehicle(line);
+                this.inventory.add(v);
+            }
+        }
+
     }
 
 

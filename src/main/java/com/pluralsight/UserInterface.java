@@ -14,7 +14,6 @@ public class UserInterface {
     public UserInterface(){
         currentDealership = DealershipFileManager.getFromCSV(filename_dealership);
         contracts = ContractFileManager.getFromCSV(filename_contracts);
-        displayContracts(contracts);
     }
 
 
@@ -32,6 +31,7 @@ public class UserInterface {
                 8 - Add a vehicle
                 9 - Remove a vehicle
                 10 - Sell or Lease vehicle
+                11 - Display Contracts
                 99 - Quit
 
                 >>>\s""";
@@ -53,6 +53,7 @@ public class UserInterface {
                 case 8 -> processAddVehicleRequest();
                 case 9 -> processRemoveVehicleRequest();
                 case 10 -> processSellOrLeaseRequest();
+                case 11 -> processDisplayContractsRequest();
                 case 99 -> System.exit(0);
                 default -> System.out.println("Invalid selection. Please try again.");
             }
@@ -215,14 +216,16 @@ public class UserInterface {
             contract = new LeaseContract(date, customerName, customerEmail, vehicle);
         }
 
-        System.out.println(contract);
-        System.out.println(contract.getTotalPrice());
-        System.out.println(contract.getMonthlyPayment());
+        contracts.add(contract);
+        ContractFileManager.appendToCSV(contract, filename_contracts);
+
 
     }
 
 
-
+    public void processDisplayContractsRequest(){
+        displayContracts(contracts);
+    }
 
     public void displayVehicle(Vehicle v){
         System.out.println(v);

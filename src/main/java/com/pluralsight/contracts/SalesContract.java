@@ -27,6 +27,31 @@ public class SalesContract extends Contract{
         this.wantsToFinance = wantsToFinance;
     }
 
+    public static Contract buildFromEncodedData(String encodedData) {
+        //super("asdf","asdf","asdf", null);
+        String[] cols = encodedData.split("\\|");
+
+        String contractDate = cols[1];
+        String contractName = cols[2];
+        String contractEmail = cols[3];
+        int vehicleVin = Integer.parseInt(cols[4]);
+        int vehicleYear = Integer.parseInt(cols[5]);
+        String vehicleMake = cols[6];
+        String vehicleModel = cols[7];
+        String vehicleType = cols[8];
+        String vehicleColor = cols[9];
+        int vehicleMiles = Integer.parseInt(cols[10]);
+        double vehiclePrice = Double.parseDouble(cols[11]);
+        double salesContractTaxes = Double.parseDouble(cols[12]);
+        double salesContractRecordingFee = Double.parseDouble(cols[13]);
+        double salesContractProcessingFee = Double.parseDouble(cols[14]);
+        boolean isFinanced = Boolean.parseBoolean(cols[16]);
+        Vehicle v = new Vehicle(vehicleVin, vehicleYear, vehicleMake, vehicleModel, vehicleType, vehicleColor, vehicleMiles, vehiclePrice);
+
+        return new SalesContract(contractDate,contractName, contractEmail, v,salesContractTaxes,salesContractRecordingFee, salesContractProcessingFee, isFinanced);
+
+    }
+
     public double getRecordingFee() {
         return recordingFee;
     }
@@ -101,4 +126,5 @@ public class SalesContract extends Contract{
                 this.getMonthlyPayment();
 
     }
+
 }
