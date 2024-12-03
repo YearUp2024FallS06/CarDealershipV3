@@ -108,6 +108,9 @@ public class Dealership implements ITextEncodable {
                 .append(this.getPhone()).append("\n");
 
         for(Vehicle v : this.inventory){
+            if(v.getModel().equalsIgnoreCase("Outlander")){
+                throw new RuntimeException("Error With Vehicle");
+            }
             sb.append(v.encode()).append("\n");
         }
 
