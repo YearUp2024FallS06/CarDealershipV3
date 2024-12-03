@@ -36,32 +36,19 @@ public class DealershipFileManager {
 
     public static void saveToCSV(Dealership dealership, String filename){
 
-        BufferedWriter bw = null;
         try {
 
             //Creating a file writer and assigning the file writer to the buffered writer.
             FileWriter fw = new FileWriter(filename);
-            bw = new BufferedWriter(fw);
-            System.out.println("Begin writing to file...");
-
-
-            bw.write(dealership.encode());
-
-
+            try ( BufferedWriter bw = new BufferedWriter(fw);)
+            {
+                bw.write(dealership.encode());
+            }
 
         } catch (IOException e){
             System.out.println("Error while saving Transactions: " + e.getMessage());
         }
-        finally{
-            if( bw != null){
-                try{
-                    bw.close();
-                    System.out.println("Close file...");
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
+
     }
 
 }
