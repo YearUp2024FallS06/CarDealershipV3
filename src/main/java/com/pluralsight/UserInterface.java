@@ -2,17 +2,23 @@ package com.pluralsight;
 
 import com.pluralsight.contracts.*;
 
+import javax.xml.crypto.Data;
 import java.util.ArrayList;
 
 public class UserInterface {
 
-    public static String filename_dealership = "inventory.csv";
-    public static String filename_contracts = "contracts.csv";
+    private int currentDealershipId = 1;
+    private static String filename_contracts = "contracts.csv";
     public Dealership currentDealership;
     public ArrayList<Contract> contracts;
 
-    public UserInterface(){
-        currentDealership = DealershipFileManager.getFromCSV(filename_dealership);
+    private DataManager dataManager;
+
+    public UserInterface(DataManager dataManager){
+        this.dataManager = dataManager;
+
+        currentDealership = dataManager.getDealership(1);
+
         contracts = ContractFileManager.getFromCSV(filename_contracts);
     }
 
@@ -80,7 +86,6 @@ public class UserInterface {
         Vehicle v = new Vehicle(vin,year, make, model, vehicleType, color, odometer, price);
 
         currentDealership.addVehicleToInventory(v);
-        DealershipFileManager.saveToCSV(currentDealership, filename_dealership);
 
     }
 
